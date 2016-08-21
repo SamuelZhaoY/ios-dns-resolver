@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @class GZDNSPolicy;
-
 @interface GZDNSResolver : NSObject
 
 /**
