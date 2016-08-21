@@ -1,6 +1,6 @@
 # GZDNSResolver
 
-[![CI Status](http://img.shields.io/travis/zy.zhao/GZDNSResolver.svg?style=flat)](https://travis-ci.org/zy.zhao/GZDNSResolver)
+[![CI Status](http://img.shields.io/travis/SamuelZhaoY/GZDNSResolver.svg?style=flat)](https://travis-ci.org/SamuelZhaoY/GZDNSResolver)
 [![Version](https://img.shields.io/cocoapods/v/GZDNSResolver.svg?style=flat)](http://cocoapods.org/pods/GZDNSResolver)
 [![License](https://img.shields.io/cocoapods/l/GZDNSResolver.svg?style=flat)](http://cocoapods.org/pods/GZDNSResolver)
 [![Platform](https://img.shields.io/cocoapods/p/GZDNSResolver.svg?style=flat)](http://cocoapods.org/pods/GZDNSResolver)
