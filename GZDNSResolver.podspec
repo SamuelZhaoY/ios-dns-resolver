@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'GZDNSResolver'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'Host name resolving utility for iOS'
 
   s.description      = <<-DESC
