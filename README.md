@@ -66,8 +66,6 @@ Init with file url
 // File url can be both refering to lcoal dir or remote file url
 [[GZDNSResolver sharedInstance] loadDNSConfigFromURL:fileUrl
                                              onCompletion:^(BOOL isSuccess) {
-                                                 XCTAssert(isSuccess, @"initialization failure");
-                                                 dispatch_semaphore_signal(sem);
                                              }];
 ```
 
