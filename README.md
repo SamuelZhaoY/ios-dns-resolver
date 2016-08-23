@@ -74,7 +74,7 @@ Init with file url
 Map a IP address to the host name. One host name can be mapped to multiple IP address
 ```objc
 [[GZDNSResolver sharedInstance] updateDNSMapping:@"10.28.241.16"
-                                                 host:@"alipay.com"];
+                                                 host:@"facebook.com"];
 ```
 
 Remove the IP address from a host mapping
@@ -84,13 +84,13 @@ Remove the IP address from a host mapping
 
 Invalidate the host and all the relate IP addresses
 ```objc
-[[GZDNSResolver sharedInstance] invalidateDNSOnHost:@"alipay.com"];
+[[GZDNSResolver sharedInstance] invalidateDNSOnHost:@"facebook.com"];
 ```
 
 ### IP address resolving
 
 ```objc
-    NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://facebook.com"]];
+NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://facebook.com"]];
 ```
 
 ## Installation
