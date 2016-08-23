@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F54D3A51D6C6CC6007E882D /* GZDNSResolverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F54D3A41D6C6CC6007E882D /* GZDNSResolverTests.m */; };
+		7F54D3A71D6C6CC6007E882D /* GZDNSResolver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FCD54BF1D69DD9A00804A0B /* GZDNSResolver.framework */; };
+		7F54D3AE1D6C6DED007E882D /* LocalConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 7F54D3AD1D6C6DED007E882D /* LocalConfig.json */; };
 		7FCD54CF1D69DE1900804A0B /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 7FCD54CE1D69DE1900804A0B /* Classes */; };
 		7FCD54D81D69DE8200804A0B /* GZDNSPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = 7FCD54D21D69DE8200804A0B /* GZDNSPolicy.h */; };
 		7FCD54D91D69DE8200804A0B /* GZDNSPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FCD54D31D69DE8200804A0B /* GZDNSPolicy.m */; };
@@ -16,7 +19,21 @@
 		7FCD54DD1D69DE8200804A0B /* GZDNSResolverParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FCD54D71D69DE8200804A0B /* GZDNSResolverParameter.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7F54D3A81D6C6CC6007E882D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FCD54B61D69DD9A00804A0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7FCD54BE1D69DD9A00804A0B;
+			remoteInfo = GZDNSResolver;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		7F54D3A21D6C6CC6007E882D /* GZDNSResolverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GZDNSResolverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F54D3A41D6C6CC6007E882D /* GZDNSResolverTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GZDNSResolverTests.m; sourceTree = "<group>"; };
+		7F54D3A61D6C6CC6007E882D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F54D3AD1D6C6DED007E882D /* LocalConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LocalConfig.json; sourceTree = "<group>"; };
 		7FCD54BF1D69DD9A00804A0B /* GZDNSResolver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GZDNSResolver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FCD54C41D69DD9A00804A0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FCD54CE1D69DE1900804A0B /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Classes; path = "/Users/Gangdooz/private/iOS/iOS-DNSResolver/GZDNSResolver/Classes"; sourceTree = "<absolute>"; };
@@ -29,6 +46,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7F54D39F1D6C6CC6007E882D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F54D3A71D6C6CC6007E882D /* GZDNSResolver.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7FCD54BB1D69DD9A00804A0B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -39,10 +64,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F54D3A31D6C6CC6007E882D /* GZDNSResolverTests */ = {
+			isa = PBXGroup;
+			children = (
+				7F54D3AD1D6C6DED007E882D /* LocalConfig.json */,
+				7F54D3A41D6C6CC6007E882D /* GZDNSResolverTests.m */,
+				7F54D3A61D6C6CC6007E882D /* Info.plist */,
+			);
+			path = GZDNSResolverTests;
+			sourceTree = "<group>";
+		};
 		7FCD54B51D69DD9A00804A0B = {
 			isa = PBXGroup;
 			children = (
 				7FCD54C11D69DD9A00804A0B /* GZDNSResolver */,
+				7F54D3A31D6C6CC6007E882D /* GZDNSResolverTests */,
 				7FCD54C01D69DD9A00804A0B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				7FCD54BF1D69DD9A00804A0B /* GZDNSResolver.framework */,
+				7F54D3A21D6C6CC6007E882D /* GZDNSResolverTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,6 +130,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		7F54D3A11D6C6CC6007E882D /* GZDNSResolverTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F54D3AC1D6C6CC6007E882D /* Build configuration list for PBXNativeTarget "GZDNSResolverTests" */;
+			buildPhases = (
+				7F54D39E1D6C6CC6007E882D /* Sources */,
+				7F54D39F1D6C6CC6007E882D /* Frameworks */,
+				7F54D3A01D6C6CC6007E882D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7F54D3A91D6C6CC6007E882D /* PBXTargetDependency */,
+			);
+			name = GZDNSResolverTests;
+			productName = GZDNSResolverTests;
+			productReference = 7F54D3A21D6C6CC6007E882D /* GZDNSResolverTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7FCD54BE1D69DD9A00804A0B /* GZDNSResolver */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7FCD54C71D69DD9A00804A0B /* Build configuration list for PBXNativeTarget "GZDNSResolver" */;
@@ -120,6 +175,10 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = com.gz;
 				TargetAttributes = {
+					7F54D3A11D6C6CC6007E882D = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = CM2CQ7U9GM;
+					};
 					7FCD54BE1D69DD9A00804A0B = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = CM2CQ7U9GM;
@@ -139,11 +198,20 @@
 			projectRoot = "";
 			targets = (
 				7FCD54BE1D69DD9A00804A0B /* GZDNSResolver */,
+				7F54D3A11D6C6CC6007E882D /* GZDNSResolverTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7F54D3A01D6C6CC6007E882D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F54D3AE1D6C6DED007E882D /* LocalConfig.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7FCD54BD1D69DD9A00804A0B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -155,6 +223,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7F54D39E1D6C6CC6007E882D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F54D3A51D6C6CC6007E882D /* GZDNSResolverTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7FCD54BA1D69DD9A00804A0B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -167,7 +243,35 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7F54D3A91D6C6CC6007E882D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7FCD54BE1D69DD9A00804A0B /* GZDNSResolver */;
+			targetProxy = 7F54D3A81D6C6CC6007E882D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		7F54D3AA1D6C6CC6007E882D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = GZDNSResolverTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gz.GZDNSResolverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7F54D3AB1D6C6CC6007E882D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = GZDNSResolverTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gz.GZDNSResolverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		7FCD54C51D69DD9A00804A0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -293,6 +397,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7F54D3AC1D6C6CC6007E882D /* Build configuration list for PBXNativeTarget "GZDNSResolverTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7F54D3AA1D6C6CC6007E882D /* Debug */,
+				7F54D3AB1D6C6CC6007E882D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		7FCD54B91D69DD9A00804A0B /* Build configuration list for PBXProject "GZDNSResolver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

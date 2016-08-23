@@ -9,9 +9,19 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>GZDNSResolverTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>7F54D3A11D6C6CC6007E882D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7FCD54BE1D69DD9A00804A0B</key>
 		<dict>
 			<key>primary</key>
