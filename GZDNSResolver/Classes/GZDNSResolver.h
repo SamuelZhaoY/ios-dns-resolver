@@ -38,6 +38,15 @@
 - (void)updateDNSMapping:(NSString*)ip
                     host:(NSString*)host;
 
+
+/**
+ *  Resolve host and provide essential cache
+ *
+ *  @param host host name
+ */
+- (void)resolveHostAndCache:(NSString*)host;
+
+
 /**
  *  Invalidate dns mapping by the given ip
  */

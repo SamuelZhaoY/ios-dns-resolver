@@ -74,6 +74,13 @@
     
 }
 
+
+- (void)testDynamicHostNameResolving
+{
+    // Resolve host name asynchronously
+    [[GZDNSResolver sharedInstance] resolveHostAndCache:@"facebook.com"];
+}
+
 - (void)testUpdateDNSMapping
 {
     // Set dns mapping & validate the dns resolving
