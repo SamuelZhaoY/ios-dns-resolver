@@ -98,13 +98,11 @@ At runtime, user can call the following method to dynamically resolve IP address
 
 ```objc
 // Resolve host name asynchronously
-[[GZDNSResolver sharedInstance] resolveHostAndCache:@"facebook.com"];
-```
-
-After this call, user can call:
-
-```objc
-NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://facebook.com"]];
+    [[GZDNSResolver sharedInstance] resolveHostAndCache:@"google.com" withCompletionCall:^(BOOL isSuccess) {
+    // Now the ip addresses has been resolved and cached, simpile to call the synchronous method to retrieve the ip address
+        NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://google.com"]];
+        NSLog(@"resolve raw ip address for google: %@",ip);
+    }];
 ```
 to get the resolved IP address.
 

@@ -10,13 +10,15 @@
 #import "GZDNSResolverParameter.h"
 #import "GZDNSPolicy.h"
 #include <arpa/inet.h>
+#import <netdb.h>
 
 
 @interface GZDNSResolvingTask : NSObject
 
 @property NSString* hostName;
 @property NSError* error;
-@property NSArray* ipAddresses;
+@property NSMutableArray* ipAddresses;
+@property void (^callback)(BOOL isSuccess);
 
 @end
 
@@ -37,9 +39,6 @@
 @end
 
 @implementation GZDNSResolver
-
-
-
 
 + (instancetype)sharedInstance
 {
@@ -219,59 +218,115 @@
 void DNSResolverHostClientCallback ( CFHostRef theHost, CFHostInfoType typeInfo, const CFStreamError *error, void *info) {
     
    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+       
        // Check host name
        Boolean hasBeenResolved;;
        NSString* hostName = (__bridge NSString*)(CFArrayGetValueAtIndex(CFHostGetNames(theHost, &hasBeenResolved), 0));
        
+       // Resolving array
+       GZDNSResolver* resolver = (__bridge GZDNSResolver*)info;
+       GZDNSResolvingTask* resolvingTask = resolver.resolvingProcessQueue[hostName];
+       
+       if (error->error) {
+           resolvingTask.error = [NSError errorWithDomain:@"resolving error"
+                                                     code:error->error
+                                                 userInfo:nil];
+           dispatch_async(dispatch_get_main_queue(), ^{
+               if (resolvingTask.callback) {
+                   resolvingTask.callback(NO);
+               }
+           });
+           return;
+       }
+       
        if (hasBeenResolved) {
-           // Resolving array
-           GZDNSResolver* resolver = (__bridge GZDNSResolver*)info;
-           GZDNSResolvingTask* resolvingTask = resolver.resolvingProcessQueue[hostName];
-           
+          
            // Listing address array
            CFArrayRef addressArray = CFHostGetAddressing(theHost, NULL);
            resolvingTask.ipAddresses = [(__bridge NSArray*)addressArray copy];
            
            // Update resolving task to DNS cache table
-           for (NSString* ipAddress in resolvingTask.ipAddresses) {
-               [resolver updateDNSMapping:hostName
-                                     host:ipAddress];
+           for (NSData* address in resolvingTask.ipAddresses) {
+               
+               int         err;
+               char        addrStr[NI_MAXHOST];
+               
+               assert([address isKindOfClass:[NSData class]]);
+               
+               err = getnameinfo((const struct sockaddr *) [address bytes], (socklen_t) [address length], addrStr, sizeof(addrStr), NULL, 0, NI_NUMERICHOST);
+               if (err == 0) {
+
+                   NSString* ipString = [NSString stringWithUTF8String:addrStr];
+                   [resolver updateDNSMapping:hostName
+                                         host:ipString];
+                   
+               } else {
+                   break;
+               }
            }
+           
+           dispatch_async(dispatch_get_main_queue(), ^{
+               if (resolvingTask.callback) {
+                   resolvingTask.callback(YES);
+               }
+           });
+       } else {
+           dispatch_async(dispatch_get_main_queue(), ^{
+               if (resolvingTask.callback) {
+                   resolvingTask.callback(NO);
+               }
+           });
        }
-       
-       // Release
-       CFHostSetClient(theHost, NULL, NULL);
-       CFRelease(theHost);
    });
 }
 
-- (void)resolveHostAndCache:(NSString*)hostName
+- (void)resolveHostAndCache:(NSString*)hostName withCompletionCall:(void (^)(BOOL isSuccess))callback
 {
     // Param check
     if (!hostName.length) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (callback) {
+                callback(NO);
+            }
+        });
+        
         return;
     }
     
-    // Dispatch original check
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-        
+        CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault , (__bridge  CFStringRef)(hostName));
         CFHostClientContext ctx = {.info = (__bridge void*)self};
-        CFHostRef host = CFHostCreateWithName(CFAllocatorGetDefault() , (__bridge  CFStringRef _Nonnull)(hostName));
-        CFHostSetClient(host
-                        ,DNSResolverHostClientCallback,
-                        &ctx);
+        CFHostSetClient(host ,DNSResolverHostClientCallback, &ctx);
+        CFRunLoopRef runloop = CFRunLoopGetCurrent();
+        CFHostScheduleWithRunLoop(host, runloop, CFSTR("DNSResolverRunLoopMode"));
         
         // start the name resolution
         CFStreamError error;
         Boolean didStart = CFHostStartInfoResolution(host, kCFHostAddresses, &error);
         if (!didStart) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (callback) {
+                    callback(NO);
+                }
+            });
             return;
         }
         
         GZDNSResolvingTask* resolvingTask = [GZDNSResolvingTask new];
         resolvingTask.hostName = hostName;
+        resolvingTask.callback = callback;
         
         [self.resolvingProcessQueue setObject:resolvingTask forKey:hostName];
+        
+        // run the run loop for 50ms at a time, always checking if we should cancel
+        while(!resolvingTask.error && !resolvingTask.ipAddresses) {
+            CFRunLoopRunInMode(CFSTR("DNSResolverRunLoopMode"), 0.05, true);
+        }
+
+        CFHostUnscheduleFromRunLoop(host, runloop, CFSTR("DNSResolverRunLoopMode"));
+        CFHostSetClient(host, NULL, NULL);
+        CFRelease(host);
     });
 }
 
@@ -328,5 +383,6 @@ void DNSResolverHostClientCallback ( CFHostRef theHost, CFHostInfoType typeInfo,
     // Make random pick from array
     return ((GZDNSMappingNode*)[candidateIPs firstObject]).rawIP;
 }
+
 
 @end
