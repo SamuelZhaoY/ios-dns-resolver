@@ -11,6 +11,7 @@
 @class GZDNSPolicy;
 @interface GZDNSResolver : NSObject
 
+
 /**
  * Singleton
  */
@@ -44,7 +45,7 @@
  *
  *  @param host host name
  */
-- (void)resolveHostAndCache:(NSString*)host;
+- (void)resolveHostAndCache:(NSString*)host withCompletionCall:(void (^)(BOOL isSuccess))callback;
 
 
 /**

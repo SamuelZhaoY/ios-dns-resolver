@@ -77,8 +77,17 @@
 
 - (void)testDynamicHostNameResolving
 {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"test dns resolve done"];
+    
     // Resolve host name asynchronously
-    [[GZDNSResolver sharedInstance] resolveHostAndCache:@"facebook.com"];
+    [[GZDNSResolver sharedInstance] resolveHostAndCache:@"google.com" withCompletionCall:^(BOOL isSuccess) {
+        NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://google.com"]];
+        NSLog(@"resolve raw ip address for google: %@",ip);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:4000
+                                 handler:nil];
 }
 
 - (void)testUpdateDNSMapping
