@@ -106,7 +106,7 @@ After this call, user can call:
 ```objc
 NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://facebook.com"]];
 ```
-to the resolved IP address.
+to get the resolved IP address.
 
 ## Installation
 
