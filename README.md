@@ -93,6 +93,21 @@ Invalidate the host and all the relate IP addresses
 NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://facebook.com"]];
 ```
 
+### Dynamically resolve a host name and cache
+At runtime, user can call the following method to dynamically resolve IP addresses for a given host name:
+
+```objc
+// Resolve host name asynchronously
+[[GZDNSResolver sharedInstance] resolveHostAndCache:@"facebook.com"];
+```
+
+After this call, user can call:
+
+```objc
+NSString* ip = [[GZDNSResolver sharedInstance] resolveIPFromURL:[NSURL URLWithString:@"https://facebook.com"]];
+```
+to the resolved IP address.
+
 ## Installation
 
 ### Cocoapods

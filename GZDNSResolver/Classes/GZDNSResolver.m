@@ -11,6 +11,19 @@
 #import "GZDNSPolicy.h"
 #include <arpa/inet.h>
 
+
+@interface GZDNSResolvingTask : NSObject
+
+@property NSString* hostName;
+@property NSError* error;
+@property NSArray* ipAddresses;
+
+@end
+
+@implementation GZDNSResolvingTask
+
+@end
+
 @interface GZDNSResolver()
 
 // DNS cache table: host name : GZDNSMappingDomain
@@ -18,9 +31,15 @@
 
 @property (nonatomic, strong) GZDNSPolicy* policy;
 
+// Provide status cache for host name in process of resolving, when user call `resolveHostAndCache`, task will be queued and start async resolving process
+@property (nonatomic, strong) NSMutableDictionary* resolvingProcessQueue;
+
 @end
 
 @implementation GZDNSResolver
+
+
+
 
 + (instancetype)sharedInstance
 {
@@ -29,6 +48,7 @@
     dispatch_once(&onceToken, ^{
         resolver = [GZDNSResolver new];
         resolver.dnsCacheTable = [NSMutableDictionary new];
+        resolver.resolvingProcessQueue = [NSMutableDictionary new];
     });
     
     return resolver;
@@ -195,6 +215,65 @@
 }
 
 #pragma mark - dns resolve
+
+void DNSResolverHostClientCallback ( CFHostRef theHost, CFHostInfoType typeInfo, const CFStreamError *error, void *info) {
+    
+   dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+       // Check host name
+       Boolean hasBeenResolved;;
+       NSString* hostName = (__bridge NSString*)(CFArrayGetValueAtIndex(CFHostGetNames(theHost, &hasBeenResolved), 0));
+       
+       if (hasBeenResolved) {
+           // Resolving array
+           GZDNSResolver* resolver = (__bridge GZDNSResolver*)info;
+           GZDNSResolvingTask* resolvingTask = resolver.resolvingProcessQueue[hostName];
+           
+           // Listing address array
+           CFArrayRef addressArray = CFHostGetAddressing(theHost, NULL);
+           resolvingTask.ipAddresses = [(__bridge NSArray*)addressArray copy];
+           
+           // Update resolving task to DNS cache table
+           for (NSString* ipAddress in resolvingTask.ipAddresses) {
+               [resolver updateDNSMapping:hostName
+                                     host:ipAddress];
+           }
+       }
+       
+       // Release
+       CFHostSetClient(theHost, NULL, NULL);
+       CFRelease(theHost);
+   });
+}
+
+- (void)resolveHostAndCache:(NSString*)hostName
+{
+    // Param check
+    if (!hostName.length) {
+        return;
+    }
+    
+    // Dispatch original check
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+        
+        CFHostClientContext ctx = {.info = (__bridge void*)self};
+        CFHostRef host = CFHostCreateWithName(CFAllocatorGetDefault() , (__bridge  CFStringRef _Nonnull)(hostName));
+        CFHostSetClient(host
+                        ,DNSResolverHostClientCallback,
+                        &ctx);
+        
+        // start the name resolution
+        CFStreamError error;
+        Boolean didStart = CFHostStartInfoResolution(host, kCFHostAddresses, &error);
+        if (!didStart) {
+            return;
+        }
+        
+        GZDNSResolvingTask* resolvingTask = [GZDNSResolvingTask new];
+        resolvingTask.hostName = hostName;
+        
+        [self.resolvingProcessQueue setObject:resolvingTask forKey:hostName];
+    });
+}
 
 - (NSString*)resolveIPFromURL:(NSURL*)originalURL
 {
