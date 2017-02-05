@@ -11,7 +11,7 @@
 #import "GZDNSPolicy.h"
 #include <arpa/inet.h>
 #import <netdb.h>
-
+#include <stdlib.h>
 
 @interface GZDNSResolvingTask : NSObject
 
@@ -381,8 +381,8 @@ void DNSResolverHostClientCallback ( CFHostRef theHost, CFHostInfoType typeInfo,
     }
     
     // Make random pick from array
-    return ((GZDNSMappingNode*)[candidateIPs firstObject]).rawIP;
-}
+    int index = arc4random_uniform(candidateIPs.count);
+    return ((GZDNSMappingNode*)[candidateIPs objectAtIndex:index]).rawIP;}
 
 
 @end
