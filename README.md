@@ -118,7 +118,7 @@ pod "GZDNSResolver"
 
 ### Carthage
 
-github "SamuelZhaoY/iOS-ToastWidget"
+github "SamuelZhaoY/GZDNSResolver"
 
 
 
