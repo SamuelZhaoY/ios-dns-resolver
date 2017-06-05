@@ -124,7 +124,7 @@ github "SamuelZhaoY/iOS-ToastWidget"
 
 ## Author
 
-zy.zhao, zhaoy.samuel@gmail.com
+zhaoy.samuel@gmail.com
 
 ## License
 
